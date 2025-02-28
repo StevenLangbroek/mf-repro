@@ -11,7 +11,7 @@ export default defineConfig({
         'hello-world': {
           name: 'hello-world',
           type: 'module',
-          entry: 'http://localhost:4173/assets/remoteEntry-D0hsAXHw.js',
+          entry: 'http://localhost:4174/mf-manifest.json',
         }
       },
       shared: ['react', 'react-dom', '@tanstack/react-query']

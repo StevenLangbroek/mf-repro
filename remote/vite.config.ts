@@ -14,6 +14,7 @@ export default defineConfig({
         './routes': './src/routes/index.tsx',
       },
       shared: ['react', 'react-dom', '@tanstack/react-router'],
+      getPublicPath: `function() {return "http://localhost:4174/"}`,
     }),
   ],
   build: {
