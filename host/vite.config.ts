@@ -7,13 +7,6 @@ export default defineConfig({
   plugins: [
     federation({
       name: 'host',
-      remotes: {
-        'hello-world': {
-          name: 'hello-world',
-          type: 'module',
-          entry: 'http://localhost:4174/mf-manifest.json',
-        }
-      },
       shared: ['react', 'react-dom', '@tanstack/react-query']
     }),
     react()

@@ -1,45 +1,34 @@
-import { SidebarItem } from './types'
+import { fetchRemotes } from './remotes';
+import { SidebarItem } from "./types";
+import { loadRemote } from "@module-federation/runtime";
 
 export async function fetchNavigation(): Promise<SidebarItem[]> {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1500))
+  const remoteItems = await Promise.all(
+    (
+      await fetchRemotes()
+    ).map(async (remote) => {
+      // @ts-expect-error
+      const { getNavigationItems } = await loadRemote(
+        `${remote.name}/navigation`
+      );
+      return getNavigationItems();
+    })
+  );
 
-  return [
+  const hostItems = [
     {
-      id: '1',
-      title: 'Dashboard',
-      href: '/',
-      icon: 'LayoutDashboard'
+      id: "1",
+      title: "Dashboard",
+      href: "/",
+      icon: "LayoutDashboard",
     },
     {
-      id: '2',
-      title: 'Analytics',
-      href: '/analytics',
-      icon: 'BarChart'
+      id: "2",
+      title: "About",
+      href: "/about",
+      icon: "BarChart",
     },
-    {
-      id: '3',
-      title: 'Settings',
-      href: '/settings',
-      icon: 'Settings'
-    },
-    {
-      id: '4',
-      title: 'Profile',
-      href: '/profile',
-      icon: 'User'
-    },
-    {
-      id: '5',
-      title: 'Help',
-      href: '/help',
-      icon: 'HelpCircle'
-    },
-    {
-      id: '6',
-      title: 'Hello World',
-      href: '/hello-world',
-      icon: 'Hand'
-    }
-  ]
+  ];
+
+  return [...hostItems, ...remoteItems.flat()];
 }

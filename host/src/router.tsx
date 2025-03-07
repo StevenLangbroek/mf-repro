@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Header } from './components/layout/header'
 import { Sidebar } from './components/layout/sidebar'
-import HelloWorld from 'hello-world/HelloWorld'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -82,7 +81,7 @@ function AboutComponent() {
 }
 
 // Create the root route
-const rootRoute = new RootRoute({
+export const rootRoute = new RootRoute({
   component: RootComponent,
 })
 
@@ -100,19 +99,10 @@ const aboutRoute = new Route({
   component: AboutComponent,
 })
 
-const helloWorldRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/hello-world',
-  component: HelloWorld,
-})
-
-// Create the router instance
-const routeTree = rootRoute.addChildren([indexRoute, aboutRoute, helloWorldRoute])
-
-export const router = new Router({
-  routeTree,
-  defaultPreload: 'intent',
-})
+// Create the route tree
+export const createRouteTree = (routes: Route[]) => {
+  return rootRoute.addChildren([indexRoute, aboutRoute, ...routes]);
+}
 
 declare module '@tanstack/react-router' {
   interface Register {

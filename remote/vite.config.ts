@@ -10,14 +10,15 @@ export default defineConfig({
       name: 'hello-world',
       manifest: true,
       exposes: {
-        './HelloWorld': './src/components/HelloWorld.tsx',
         './routes': './src/routes/index.tsx',
+        './navigation': './src/navigation.ts',
       },
       shared: ['react', 'react-dom', '@tanstack/react-router'],
-      getPublicPath: `function() {return "http://localhost:4174/"}`,
+      getPublicPath: `function() { return "http://localhost:4174/" }`,
     }),
   ],
   build: {
+    modulePreload: false,
     target: 'esnext',
     minify: false,
   },
